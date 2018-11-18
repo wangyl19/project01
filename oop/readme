@@ -1,0 +1,171 @@
+OOP(object-oriented programming)：面向对象的编程（把组件的实现和接口分开，并且让组件具有多态性）
+
+1、为什么会出现面向对象的分析方法？
+    答：因为现实世界太复杂多变，面向过程的分析方法无法满足
+
+2、面向对象的特征有哪些？
+    答：抽象、封装、继承、多态
+
+3、接口、类、对象三者之间的关系？
+    答：对象是描述现实事物的具体单位---------------->小明()
+        类是对共性对象的抽象描述------------------->人
+        接口是共性类的更抽象描述------------------->会交流的、会运动的、会学习的等
+
+
+-------------------------------------------------------------------------------------------------------------
+
+1、构造方法作用：
+	-创建对象   关键字new
+	-初始化成员变量
+	注意：构造方法执行不一定创建对象(super)
+
+this  是一个引用，只能用在成员方法和构造方法中，不能使用在静态方法中
+super 不是一个引用，只能使用在重写的方法中或构造方法中，代表当前子类中的父类型特征
+
+static	静态方法、静态变量、静态语句块(类级)
+	1、类名.方式调用，就算使用“引用.”,底层还是用的“类名.”
+	2、静态方法中不能使用“this”
+	3、静态变量在 “类加载” 阶段进行初始化
+	注意：关于静态变量和静态方法的调用，绝不会出现“空指针”异常
+final 最终
+	final修饰的成员变量必须“显示的”初始化
+	final修饰的成员变量一般和static联用：常量
+
+2、面向对象“封装性”指的是
+	1、属性私有化(private)
+	2、对外提供公开(public)的set、get方法
+
+3、面向对象“继承” extends
+	最基本的作用：代码重用
+	最重要的作用：方法可以重写
+
+	java语言中，会将父类所有的数据全部继承，包括私有的数据
+	但是在子类中无法直接访问父类中的私有数据。但可以间接访问
+
+	注意：构造方法无法被子类继承
+		私有方法无法被重写
+		静态方法不存在重写
+		覆盖指的是成员方法，和成员变量无关
+
+4、面向对象“多态”
+	"父类引用" 指向 "子类对象"
+	程序分为“编译阶段”和“运行阶段”
+	编译阶段为静态绑定、运行阶段为动态绑定
+	boolean flag = a instanceof Dog
+
+	好处：耦合度降低、扩展能力增强
+
+5、接口的作用：
+	1.可以使项目分层，所有层都面向接口开发，从而提高开发效率
+	2.接口使代码和代码之间的耦合度降低，就像内存条和主板的关系，变得“可插拔”。
+
+6、常用类：
+	-java.text.DecimalFormat;  数字格式元素  数字-->字符串(指定格式)
+	-java.text.SimpleDateFormat;
+		String format(Date d)	日期格式化  日期-->字符串
+		Date parse(String s)	日期格式化  字符串--日期
+	-java.util.Random;	     随机数  nextInt(101)  [0-100]
+
+7、集合：
+	Java集合中主要有3中重要类型
+	-List	有序，可重复
+	-Set	无序，不可重复
+	-Map	存放键值对、键不可重复
+	Collection常用方法
+		-boolean add(Object element);
+		-int size();
+		-void clear();
+		-boolean isEmpty();
+		-Object[] toArray();  将集合转化为数组
+		-Iterator iterator(); 获取集合所依赖的迭代器对象
+		-boolean contains(Object o); 判断集合中是否包含某个元素
+		-boolean remove(Object o);   删除集合中某个元素
+	List特有方法：有序、可重复
+		因此可以根据下标存、取、遍历元素
+ArrayList集合底层默认初始化容量是10，扩大之后的容量是原容量的1.5倍
+Vector集合底层默认初始化容量也是10，扩大之后的容量是原容量的2倍
+如何优化ArrayList和Vector
+	尽量减少扩容操作，一般推荐创建集合时指定初始化容量
+
+	Set集合中存储元素，需要调用该元素的hashCode和equals方法，因此需要重写hashCode和equasl方法
+1、HashSet底层实际上是一个HashMap，HashMap底层采用了哈希表数据结构。
+2、哈希表又叫散列表，哈希表底层是一个数组，这个数组中每一个元素是一个单项链表。
+每一个单向链表都有一个独一无二的hash值，代表数组的下标。
+在摸个单项链表中的每一个节点上的hash值是相等的。hash值实际上是key先调用hashcode方法，再通过
+"哈希算法"所转换的值，就是hash值，也是下标。
+3、如何向哈希表中添加数据
+先调用被存储元素key的hashCode方法，经过哈希算法得出hash值，如果在这个哈希表中不存在这个hash值，
+则直接添加元素；如果该hash值已经存在，继续调用key之间的equals方法，如果都返回false，则加入该元素
+如果equals方法返回true，则放弃加入该元素
+	-SortedSet>TreeSet 无序不可重复，但是存进去的元素可以按照元素大小顺序自动排序
+SortedSet集合存储元素为什么可以自动排序？
+	因为被存储的元素实现了Comparable接口，SUN所编写实现类TreeSet集合在添加元素的时候，
+	会调用compareTo方法完成比较
+	注意：如果被存储的元素没有实现Comparable接口，需要在创建集合时，传入一个比较器
+	SortedSet s = new TreeSet(Comparator c);
+
+	Map集合常用方法
+		-Object get(Object key);
+		-Object put(Object key,Object value);
+		-Object remove(Object key);
+		-int size();
+		-void clear();
+		-boolean containsKey(Object key);
+		-boolean containsValue(Object value);
+		-Set<Map,Entry<K,V>> entrySet();  返回此映射中包含的映射关系的Set视图
+		-Set keySet();	获取map中的所有key
+		-Collection value(); 获取所有的value
+HashMap默认初始化容量是16，默认加载因子0.75
+Hashtable默认初始化容量是11，默认加载因子是0.75
+java.util.Properties;也是有key和value组成，但是key和value都是字符串类型
+	-Object setProperty(String key,String value);  存  	key如果重复，value会被覆盖
+	-String getProperty(String key);		取
+SortedMap中key特点：无序不可重复，但是存进去的元素可以按照大小自动排序
+	如果想自动排序：key的部分元素需要，1、实现Comparable接口。2、单独写一个比较器
+关于集合工具类 java.util.Collections
+
+泛型：泛型是一个编译阶段的语法，在编译阶段统一集合中的数据类型
+
+单例模式：私有化构造函数
+装饰者模式：装饰者中含有被装饰者的引用；并且两者都要实现统一的接口
+适配器模式：代码的优雅与丑陋，GenericServlet implements Servlet 屏蔽丑陋的代码
+	GenericServlet都做了什么
+	1、代码优雅，屏蔽丑陋的代码(多余的方法)
+	2、init() 完成对 init(ServletConfig config) 初始化作用
+	3、扩展一些方法
+
+死锁：两个线程锁上两个相同的对象，只是锁的先后顺序不一致，会发生死锁现象
+守护线程：当所有用户线程都执行结束后，守护线程会自动退出  setDaemon();
+
+Servlet 5个方法 处理业务核心方法service(req,resp);init(config);getServletConfig();getServletInfo();
+ServletConfig Servlet配置信息对象 getServletContext();getServletName();getInitParameter(name);getInitParameterNames();
+ServletContext	整个应用的容器对象
+GenericServlet	代码优雅，屏蔽丑陋的代码，并扩展一些方法 getServletContext();
+HttpServlet	安全机制，控制前后台请求方式一致
+ServletRequest
+HttpServletRequest
+
+Cookie	把会话状态保存在客户端上、cookie有寿命、cookie和请求路径有关、cookie以String类型的键值对的形式存储数据
+	服务器端如何创建Cookie对象   Cookie c1 = new Cookie("cookieName","cookieValue");
+	服务器端如何将Cookie发送给浏览器端	response.addCookie(c1);
+	服务器端如何接收浏览器发送的Cookie	Cookie[] cookies = request.getCookies();
+	Cookie存储浏览器上，什么时候存储在内存？什么时候存储在硬盘？
+		c1.setMaxAge(>0);   //保存在硬盘当中，如果没有设置则保存在内存当中
+		c1.setMaxAge(60*60);//1小时有效，保存在硬盘中
+	Cookie发送和请求路径有什么关系？
+		发送Cookie请求下的父路径下的所有请求都会发送
+		还可以设置关联路径
+		c1.stePath(request.getContextPath()+"/hehe");
+		这时c1这个cookie和"/项目名/hehe"路径以及该路径下的子路径关联
+	cookie应用：十天内免登录
+		用户第1次访问web站点时并且勾选 "十天内免登录" 的复选框
+			-验证用户名和密码成功
+			-验证成功后，才会创建Cookie对象(保存用户名和密码，设置有效期10天，设置关联路径，并把cookie发送给浏览器)
+		用户第2+此访问web站点时	直接从cookie中获取用户名和密码，验证成功，直接跳转到登录成功后的页面
+
+
+Session：会话对象
+
+
+
+
